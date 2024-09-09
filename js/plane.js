@@ -9,17 +9,13 @@ class Plane extends Sprite{
         this.addTexture("assets/vehicles/plane.png");
 
         this.initAudio();
-        window.addEventListener("click", ()=>this.initAudio(), {once: true});
-        //this.initAudio();
     }
 
     initAudio() {
-        if (this.audio == undefined){
-            this.audio = document.createElement("audio");
-            this.audio.src = "assets/audio/plane.wav";
-            this.audio.loop = true;
-            this.audio.play();
-        } 
+        this.audio = document.createElement("audio");
+        this.audio.src = "assets/audio/plane.wav";
+        this.audio.loop = true;
+        this.audio.play();
     }
 
     checkGroundCollision(){

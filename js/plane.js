@@ -6,17 +6,20 @@ class Plane extends Sprite{
         this.landed = false;
         this.score = 0;
 
-        this.addTexture("assets/player.png");
+        this.addTexture("assets/vehicles/plane.png");
 
         this.initAudio();
+        window.addEventListener("click", ()=>this.initAudio(), {once: true});
+        //this.initAudio();
     }
 
     initAudio() {
-        this.audio = document.createElement("audio");
-        this.audio.src = "assets/audio/plane.wav";
-        //this.audio.mozPreservesPitch = false;
-        this.audio.loop = true;
-        this.audio.play();
+        if (this.audio == undefined){
+            this.audio = document.createElement("audio");
+            this.audio.src = "assets/audio/plane.wav";
+            this.audio.loop = true;
+            this.audio.play();
+        } 
     }
 
     checkGroundCollision(){
@@ -38,7 +41,7 @@ class Plane extends Sprite{
         this.updateTextures();
 
         if (this.audio) {
-            let pitch = this.throttle > 0 ? 2 : 0.5;
+            let pitch = this.throttle > 0 ? 0.5 : 2;
             let volume = this.orientation / (MAX_UP_ROTATION * 3) + 0.8
             if(volume > 1) volume = 1;
             if(volume < 0) volume = 0;
@@ -46,10 +49,9 @@ class Plane extends Sprite{
             this.audio.volume = volume;
         }
 
-        if(this.throttle && this.orientation < MAX_UP_ROTATION){
+        if(this.throttle && this.orientation < MAX_UP_ROTATION && this.fuel > 0){
             this.fuel -= FUEL_PERCENT_PER_SECOND * dt;
-
-            if(this.fuel > 0) this.vy += GRAVITY * dt;
+            this.vy += GRAVITY * dt;
         }else{
             this.vy -= GRAVITY * dt;
         }
@@ -69,6 +71,13 @@ class Plane extends Sprite{
             this.landed = true;
         }else{
             this.landed = false;
+        }
+
+        //Max height managment
+        if(this.y + this.h > MAX_HEIGHT){
+            this.y = MAX_HEIGHT - this.h;
+            this.vy = 0;
+            this.orientation = 0;
         }
 
     }

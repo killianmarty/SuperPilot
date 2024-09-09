@@ -5,7 +5,7 @@ canvas.height = canvas.offsetHeight;
 let interval;
 
 
-let player = new Plane(0, 50, 30, 20, 40, 0);
+let player = new Plane(0, 50, 30, 20, 60, 0);
 let sprites = new Array();
 let renderer = new Renderer(canvas);
 
@@ -52,7 +52,7 @@ function generateAirport(){
 function generateSprite(){
     let currentDate = Date.now();
     if(currentDate - lastGeneration > 1000/generationFrequency){
-        if(sprites.length == 0 || sprites[sprites.length-1].x + sprites[sprites.length-1].w < player.x + renderer.canvasWidth / renderer.verticalRatio){
+        if(sprites.length == 0 || sprites[sprites.length-1].x + sprites[sprites.length-1].w < player.x + MAX_DISPLAY_WIDTH){
             //we generate a sprite
             let newSpriteData = spriteData[Math.floor(Math.random()* spriteData.length)];
             let newSprite;
@@ -63,6 +63,12 @@ function generateSprite(){
                     break;
                 case "Vegetation":
                     newSprite = new Vegetation(player.x + MAX_DISPLAY_WIDTH, newSpriteData.y, newSpriteData.with, newSpriteData.height, 0, 0, newSpriteData.textures);
+                    break;
+                case "Baloon":
+                    newSprite = new Baloon(player.x + MAX_DISPLAY_WIDTH, MAX_HEIGHT - newSpriteData.height - Math.random() * 30, newSpriteData.width, newSpriteData.height, -10, 0);
+                    break;
+                case "Helicopter":
+                    newSprite = new Helicopter(player.x + MAX_DISPLAY_WIDTH, MAX_HEIGHT - newSpriteData.height - Math.random() * 30, newSpriteData.width, newSpriteData.height, -30, 0);
                     break;
                 default:
                     return;
@@ -103,7 +109,7 @@ function frame(){
         if(sprites[i].x < player.x - 5000) sprites.splice(i, 1);
 
         //update sprites
-        sprites[i].update();
+        sprites[i].update(dt);
 
         //check for collisions
         if(player.checkCollide(sprites[i])){

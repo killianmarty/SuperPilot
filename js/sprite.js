@@ -1,3 +1,5 @@
+let texturesLoader = {};
+
 class Sprite{
     
     constructor(x, y, w, h, vx, vy){
@@ -28,7 +30,10 @@ class Sprite{
     }
 
     update(dt){
-        return;
+        this.updateTextures(dt);
+
+        this.x += this.vx*dt;
+        this.y += this.vy*dt;
     }
 
     checkCollide(sprite){
@@ -41,10 +46,15 @@ class Sprite{
     }
 
     addTexture(src){
-        let tmpTexture = new Image();
-        tmpTexture.src = src;
-        this.textures.push(tmpTexture);
-
+        if(src in texturesLoader){
+            this.textures.push(texturesLoader[src]);
+        }else{
+            let tmpTexture = new Image();
+            tmpTexture.src = src;
+            texturesLoader[src] = tmpTexture;
+            this.textures.push(tmpTexture);
+        }
+        
         this.currentTextureIndex = 0;
         this.currentTexture = this.textures[0];
     }

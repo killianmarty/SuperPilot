@@ -7,12 +7,22 @@
             margin: 0px;
             padding: 0px;
             overflow: hidden;
+
+            touch-action: none;
+           -webkit-touch-callout: none;
+           -webkit-user-select: none;
+           -khtml-user-select: none;
+           -moz-user-select: none;
+           -ms-user-select: none;
+           user-select: none;
+           outline: none;
         }
 
         canvas{
             background-color: lightblue;
             width: 100vw;
             height: 100vh;
+            touch-action: none;
         }
 
         #metrics{
@@ -53,6 +63,8 @@
     <script src="js/vegetation.js"></script>
     <script src="js/airport.js"></script>
     <script src="js/plane.js"></script>
+    <script src="js/baloon.js"></script>
+    <script src="js/helicopter.js"></script>
     <script src="js/renderer.js"></script>
     <script src="js/app.js"></script>
 </body>

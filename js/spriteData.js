@@ -112,5 +112,17 @@ const spriteData = [
         height: 112,
         y: -7.3,
         textures: "assets/buildings/airport.png"
+    },
+
+    {
+        type: "Baloon",
+        width: 26,
+        height: 40
+    },
+
+    {
+        type: "Helicopter",
+        width: 56,
+        height: 20
     }
 ];

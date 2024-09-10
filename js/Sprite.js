@@ -1,5 +1,3 @@
-let texturesLoader = {};
-
 class Sprite{
 
     static textureCache = {};
@@ -49,18 +47,16 @@ class Sprite{
 
     addTexture(src){
 
-        if(Sprite.textureCache[src]){
-            this.textures.push(Sprite.texturesCache[src]);
-        }else{
+        if(!Sprite.textureCache[src]){
             let tmpTexture = new Image();
             tmpTexture.src = src;
             Sprite.textureCache[src] = tmpTexture;
-            this.textures.push(tmpTexture);
         }
-        
+
+        this.textures.push(Sprite.textureCache[src]);
         this.currentTextureIndex = 0;
         this.currentTexture = this.textures[0];
-        
+
     }
 
 }

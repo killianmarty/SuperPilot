@@ -22,7 +22,7 @@ class Plane extends Sprite{
         return (this.y <= 0 && this.vy <= GROUND_CRASH_SEIL)
     }
 
-    //redefinition to reduce the hitbox
+    //Overide to reduce the hitbox
     checkCollide(sprite){
         let horizontalReduction = 0.75
         let verticalReduction = 0.50
@@ -52,13 +52,13 @@ class Plane extends Sprite{
             this.vy -= GRAVITY * dt;
         }
 
-        this.orientation = Math.atan(this.vy/this.vx);
-
         this.x += this.vx*dt;
         this.y += this.vy*dt;
 
+        this.orientation = Math.atan(this.vy/this.vx);
         this.score = this.x * SCORE_PER_PIXEL;
 
+        
         //Landing managment
         if(this.y <= 0 && this.vy > GROUND_CRASH_SEIL){
             this.y=0;

@@ -43,10 +43,8 @@ class Renderer{
     }
 
     renderPlayer(player){
-        
         let playerDisplayPos = this.getDisplayPosition(0, player.y, player.w, player.h);
         this.drawTexture(player.currentTexture, playerDisplayPos, -player.orientation);
-
     }
 
     renderSprite(sprite, referenceX){
@@ -58,18 +56,13 @@ class Renderer{
     render(player, sprites){
         let referenceX = player.x;
 
-        //clear ctx
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-
-        //render ground
         this.renderGround();
         
-        //draw sprites
         sprites.forEach(sprite => {
             this.renderSprite(sprite, referenceX);
         });
 
-        //draw player
         this.renderPlayer(player);
     }
 

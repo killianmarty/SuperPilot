@@ -4,7 +4,6 @@ canvas.height = canvas.offsetHeight;
 
 let interval;
 
-
 let player = new Plane(0, 50, 30, 20, 60, 0);
 let sprites = new Array();
 let renderer = new Renderer(canvas);
@@ -94,40 +93,30 @@ function endGame(){
 function frame(){
     let dt = computeDeltaTime();
 
-    //update player
     player.update(dt)
 
-    //sprites generation managment
     generateAirport();
     generateSprite();
 
-    //check for ground crash
-    if(player.checkGroundCollision()) endGame();
+    if(player.checkGroundCollision()) endGame(); //check for ground crash
 
     for (let i = 0; i < sprites.length; i++) {
-        //delete sprite if needed
-        if(sprites[i].x < player.x - 5000) sprites.splice(i, 1);
 
-        //update sprites
+        if(sprites[i].x < player.x - 5000) sprites.splice(i, 1); //delete sprite if needed
+
         sprites[i].update(dt);
+        
+        if(player.checkCollide(sprites[i])) sprites[i].collide(player); //check for collisions
 
-        //check for collisions
-        if(player.checkCollide(sprites[i])){
-            sprites[i].collide(player)
-            //endGame();
-            break;
-        }
     }
 
     renderer.render(player, sprites);
 
-    //update score
-    document.getElementById("score").innerText = "Score " + (Math.floor(player.score)).toString();
-
-    //update fuel level
-    document.getElementById("fuelLevel").style.width = parseFloat(player.fuel)+"%";
+    document.getElementById("score").innerText = "Score " + (Math.floor(player.score)).toString(); //update score
+    document.getElementById("fuelLevel").style.width = parseFloat(player.fuel)+"%"; //update fuel level
 }
 
+//Launch game
 
 init();
 

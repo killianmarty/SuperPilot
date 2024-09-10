@@ -4,7 +4,7 @@ canvas.height = canvas.offsetHeight;
 
 let interval;
 
-let player = new Plane(0, 50, 30, 20, 60, 0);
+let player = new Player(0, 50, 30, 20, 60, 0);
 let sprites = new Array();
 let renderer = new Renderer(canvas);
 
@@ -58,10 +58,10 @@ function generateSprite(){
 
             switch (newSpriteData.type) {
                 case "Building":
-                    newSprite = new Building(player.x + MAX_DISPLAY_WIDTH, -Math.random()*4, newSpriteData.with, newSpriteData.height, 0, 0, newSpriteData.textures);
+                    newSprite = new Building(player.x + MAX_DISPLAY_WIDTH, -Math.random()*4, newSpriteData.with, newSpriteData.height, newSpriteData.textures);
                     break;
                 case "Vegetation":
-                    newSprite = new Vegetation(player.x + MAX_DISPLAY_WIDTH, newSpriteData.y, newSpriteData.with, newSpriteData.height, 0, 0, newSpriteData.textures);
+                    newSprite = new Vegetation(player.x + MAX_DISPLAY_WIDTH, newSpriteData.y, newSpriteData.with, newSpriteData.height, newSpriteData.textures);
                     break;
                 case "Baloon":
                     newSprite = new Baloon(player.x + MAX_DISPLAY_WIDTH, MAX_HEIGHT - newSpriteData.height - Math.random() * 30, newSpriteData.width, newSpriteData.height, -10, 0);

@@ -116,6 +116,8 @@ function frame(){
     document.getElementById("fuelLevel").style.width = parseFloat(player.fuel)+"%"; //update fuel level
 }
 
+
+
 //Launch game
 
 init();

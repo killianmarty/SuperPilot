@@ -1,7 +1,7 @@
 class Player extends MovingSprite{
     constructor(x, y, w, h, vx, vy){
         super(x, y, w, h, vx, vy);
-        this.fuel = 29;
+        this.fuel = 100;
         this.throttle = false;
         this.landed = false;
         this.score = 0;

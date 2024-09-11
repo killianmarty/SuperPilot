@@ -99,8 +99,6 @@ function frame(){
     generateAirport();
     generateSprite();
 
-    if(player.checkGroundCollision()) endGame(); //check for ground crash
-
     for (let i = 0; i < sprites.length; i++) {
 
         if(sprites[i].x < player.x - 5000) sprites.splice(i, 1); //delete sprite if needed
@@ -108,8 +106,11 @@ function frame(){
         sprites[i].update(dt);
         
         if(player.checkCollide(sprites[i])) sprites[i].collide(player); //check for collisions
+        else sprites[i].uncollide(player);
 
     }
+
+    if(player.checkGroundCollision()) endGame(); //check for ground crash
 
     renderer.render(player, sprites);
 

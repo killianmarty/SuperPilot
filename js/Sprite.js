@@ -45,6 +45,10 @@ class Sprite{
         return;
     }
 
+    uncollide(sprite){
+        return;
+    }
+
     addTexture(src){
 
         if(!Sprite.textureCache[src]){

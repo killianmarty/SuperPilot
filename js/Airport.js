@@ -5,10 +5,10 @@ class Airport extends MovingSprite{
     }
 
     collide(sprite){
-        if(sprite.landed == true) sprite.fuel = 100;
+        sprite.landed = (sprite.y <= 0 && sprite.vy > GROUND_CRASH_SEIL);
     }
 
-    checkCollide(sprite){
-        return false;
+    uncollide(sprite){
+        sprite.landed = false;
     }
 }

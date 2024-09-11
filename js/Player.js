@@ -1,7 +1,7 @@
 class Player extends MovingSprite{
     constructor(x, y, w, h, vx, vy){
         super(x, y, w, h, vx, vy);
-        this.fuel = 100;
+        this.fuel = 29;
         this.throttle = false;
         this.landed = false;
         this.score = 0;
@@ -19,7 +19,7 @@ class Player extends MovingSprite{
     }
 
     checkGroundCollision(){
-        return (this.y <= 0 && this.vy <= GROUND_CRASH_SEIL)
+        return (this.y <= 0 && !this.landed)
     }
 
     //Overide to reduce the hitbox
@@ -48,6 +48,7 @@ class Player extends MovingSprite{
         if(this.throttle && this.orientation < MAX_UP_ROTATION && this.fuel > 0){
             this.fuel -= FUEL_PERCENT_PER_SECOND * dt;
             this.vy += GRAVITY * dt;
+            this.landed = false;
         }else{
             this.vy -= GRAVITY * dt;
         }
@@ -60,13 +61,11 @@ class Player extends MovingSprite{
 
         
         //Landing managment
-        if(this.y <= 0 && this.vy > GROUND_CRASH_SEIL){
+        if(this.landed){
+            this.fuel = Math.min(this.fuel + REFUEL_PERCENT_PER_SECOND * dt);
             this.y=0;
             this.vy = 0;
             this.orientation = 0;
-            this.landed = true;
-        }else{
-            this.landed = false;
         }
 
         //Max height managment

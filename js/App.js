@@ -88,6 +88,7 @@ function endGame(){
     clearInterval(interval);
     player.audio.pause();
     alert("collision");
+    window.location.reload();
 }
 
 function frame(){

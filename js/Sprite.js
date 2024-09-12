@@ -2,14 +2,12 @@ class Sprite{
 
     static textureCache = {};
     
-    constructor(x, y, w, h, vx, vy){
+    constructor(x, y, w, h){
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
-        // this.vx = vx;
-        // this.vy = vy;
-        // this.orientation = 0;
+        this.orientation = 0;
 
         this.textures = new Array();
         this.textureChangeFrequency = 0;
@@ -31,9 +29,6 @@ class Sprite{
 
     update(dt){
         this.updateTextures(dt);
-
-        // this.x += this.vx*dt;
-        // this.y += this.vy*dt;
     }
 
     checkCollide(sprite){

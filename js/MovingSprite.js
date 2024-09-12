@@ -4,7 +4,6 @@ class MovingSprite extends Sprite{
         super(x, y, w, h);
         this.vx = vx;
         this.vy = vy;
-        this.orientation = 0;
     }
 
     update(dt){

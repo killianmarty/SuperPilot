@@ -5,6 +5,7 @@ canvas.height = canvas.offsetHeight;
 let interval;
 
 let player = new Player(0, 50, 30, 20, 60, 0);
+let backgroundSprites = new Array();
 let sprites = new Array();
 let renderer = new Renderer(canvas);
 
@@ -32,6 +33,18 @@ function computeDeltaTime(){
     let dt = currentDate - lastFrameDate;
     lastFrameDate = currentDate;
     return dt/1000;
+}
+
+function generateCloud(){
+    if(Cloud.lastCloudX < player.x + MAX_WIDTH*0.33 && Math.random() > 0.5){
+        let x = player.x + MAX_DISPLAY_WIDTH;
+        let y = Math.random()*MAX_HEIGHT/0.5 + 1.5*GROUND_HEIGHT;
+
+        let newCloud = new Cloud(x, y, 40, 30);
+        Cloud.lastCloudX = x;
+
+        backgroundSprites.push(newCloud);
+    }
 }
 
 function generateAirport(){
@@ -96,6 +109,7 @@ function frame(){
 
     player.update(dt)
 
+    generateCloud();
     generateAirport();
     generateSprite();
 
@@ -112,7 +126,7 @@ function frame(){
 
     if(player.checkGroundCollision()) endGame(); //check for ground crash
 
-    renderer.render(player, sprites);
+    renderer.render(player, sprites, backgroundSprites);
 
     document.getElementById("score").innerText = "Score " + (Math.floor(player.score)).toString(); //update score
     document.getElementById("fuelLevel").style.width = parseFloat(player.fuel)+"%"; //update fuel level

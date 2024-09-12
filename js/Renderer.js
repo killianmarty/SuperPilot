@@ -53,11 +53,15 @@ class Renderer{
         this.drawTexture(sprite.currentTexture, spriteDisplayPos, sprite.orientation);
     }
 
-    render(player, sprites){
+    render(player, sprites, backgroundSprites){
         let referenceX = player.x;
 
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
         this.renderGround();
+
+        backgroundSprites.forEach(backgroundSprite => {
+            this.renderSprite(backgroundSprite, referenceX);
+        })
         
         sprites.forEach(sprite => {
             this.renderSprite(sprite, referenceX);

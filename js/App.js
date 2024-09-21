@@ -13,6 +13,7 @@ let lastFrameDate;
 //Playing/Pausing managment
 let playing = false;
 let paused = false;
+let muted = false;
 
 function init(){
     //Input managment
@@ -46,10 +47,10 @@ function generateCloud(){
 }
 
 function generateMountain(){
-    if(Math.random()<0.001){
-        let x = player.x + MAX_DISPLAY_WIDTH;
-        let y = 0;
-
+    let x = player.x + MAX_DISPLAY_WIDTH;
+    let y = -5;
+    if(Mountain.lastRightBoundX < x && Math.random()<0.001){
+        
         switch(Math.floor(Math.random()*5) + 1){
             case 1:
                 new Mountain(x, y, 384, 100, 1);
@@ -112,23 +113,6 @@ function generateSprite(){
     }
 }
 
-function endGame(){
-    playing = false;
-    paused = true;
-
-    //Stop the main loop
-    clearInterval(interval);
-
-    //Stop player audio
-    player.stopAudio();
-    
-    //Show the menu
-    document.getElementById("menuTitle").innerText = "Game Over";
-    document.getElementById("menuStartBtn").onclick = ()=>restartGame();
-    document.getElementById("menuStartBtn").src = "assets/gui/restart_button.png";
-    document.getElementById("menu").style.display = "flex";
-}
-
 function frame(){
     let dt = computeDeltaTime();
 
@@ -175,7 +159,7 @@ function frame(){
 function restartGame(){
     //Reset
     init()
-    player.startAudio();
+    if(!muted) player.startAudio();
 
     interval = setInterval(()=>{
         frame();
@@ -190,7 +174,7 @@ function restartGame(){
 }
 
 function startGame(){
-    player.startAudio();
+    if(!muted) player.startAudio();
     
     //Set playing and paused values
     playing = true;
@@ -199,6 +183,60 @@ function startGame(){
    
     //Hide the menu
     document.getElementById("menu").style.display = "none";
+}
+
+function endGame(){
+    playing = false;
+    paused = true;
+
+    //Stop the main loop
+    clearInterval(interval);
+
+    //Stop player audio
+    player.stopAudio();
+    
+    //Show the menu
+    document.getElementById("menuTitle").innerText = "Game Over";
+    document.getElementById("menuStartBtn").onclick = ()=>restartGame();
+    document.getElementById("menuStartBtn").src = "assets/gui/restart_button.png";
+    document.getElementById("menu").style.display = "flex";
+}
+
+function pauseGame(){
+    paused = true;
+
+    player.stopAudio();
+
+    clearInterval(interval);
+
+    document.getElementById("menuTitle").innerText = "Paused";
+    document.getElementById("menuStartBtn").onclick = ()=>resumeGame();
+    document.getElementById("menuStartBtn").src = "assets/gui/play_button.png";
+    document.getElementById("menu").style.display = "flex";
+}
+
+function resumeGame(){
+    paused = false;
+
+    if(!muted) player.startAudio();
+
+    lastFrameDate = Date.now();
+    interval = setInterval(()=>{
+        frame();
+    }, 16);
+
+    document.getElementById("menu").style.display = "none";
+}
+
+function toggleMute(){
+    if(muted){
+        player.startAudio();
+        document.getElementById("audioBtn").classList.remove("disabled");
+    }else{
+        player.stopAudio();
+        document.getElementById("audioBtn").classList.add("disabled");
+    }
+    muted = !muted;
 }
 
 init();

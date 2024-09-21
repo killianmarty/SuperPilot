@@ -33,6 +33,9 @@
             width: 100vw;
             height: 100vh;
             touch-action: none;
+            position: absolute;
+            top: 0px;
+            left: 0px;
         }
 
         #metrics{
@@ -74,30 +77,52 @@
             cursor: pointer;
         }
 
+        #gameButtons{
+            position: absolute;
+            padding: 5px;
+        }
+
+        .gameButton{
+            width: min(10vh, 10vw);
+            width: min(10vh, 10vw);
+            cursor: pointer;
+        }
+
         #menuTitle{
             color: white;
             font-weight: bold;
             margin: 0px;
         }
 
+        .disabled{
+            filter: grayscale(100%);
+        }
+
     </style>
 
 </head>
 <body>
+    <canvas id="canvas" width="1200" height="500"></canvas>
+
+    <div id="gameButtons">
+        <img id="pauseBtn" class="gameButton" src="assets/gui/pause_button.png" onclick="pauseGame();">
+        <img id="audioBtn" class="gameButton" src="assets/gui/audio_button.png" onclick="toggleMute();">
+    </div>
+
     <div id="metrics">
         <div id="fuelBar">
             <div id="fuelLevel"></div>
         </div>
         <p id="score"></p>
     </div>
-    
-    <canvas id="canvas" width="1200" height="500"></canvas>
 
     <div id="menu">
         <h1 id="menuTitle">SuperPilot</h1>
         <img id="menuStartBtn" src="assets/gui/play_button.png" onclick="startGame();"></img>
         <span></span>
     </div>
+
+    
 
     <script src="js/Settings.js"></script>
     <script src="js/SpriteData.js"></script>

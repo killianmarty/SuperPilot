@@ -57,12 +57,13 @@ class Renderer{
         let referenceX = player.x;
 
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-        this.renderGround();
-
+        
         backgroundSprites.forEach(backgroundSprite => {
             this.renderSprite(backgroundSprite, referenceX);
         })
         
+        this.renderGround();
+
         sprites.forEach(sprite => {
             this.renderSprite(sprite, referenceX);
         });

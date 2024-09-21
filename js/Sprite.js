@@ -10,12 +10,10 @@ class Sprite{
 
 
     static updateLastGenerationDate(generationDate = Date.now()){
-
         Sprite.lastGeneration = generationDate;
         if(Sprite.generationFrequency < MAX_GENERATION_FREQUENCY){
             Sprite.generationFrequency += GENERATION_FREQUENCY_GAP;
         }
-
     }
 
     static getLastGenerationAge(){

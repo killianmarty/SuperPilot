@@ -50,7 +50,7 @@ function generateMountain(){
         let x = player.x + MAX_DISPLAY_WIDTH;
         let y = 0;
 
-        switch(Math.floor(Math.random()*6) + 1){
+        switch(Math.floor(Math.random()*5) + 1){
             case 1:
                 new Mountain(x, y, 384, 100, 1);
                 break;
@@ -65,9 +65,6 @@ function generateMountain(){
                 break;
             case 5:
                 new Mountain(x, y, 386, 100, 5);
-                break;
-            case 6:
-                new Mountain(x, y, 390, 120, 6);
                 break;
             default:
                 break;

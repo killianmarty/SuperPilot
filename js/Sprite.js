@@ -1,6 +1,40 @@
 class Sprite{
 
     static textureCache = {};
+
+    static sprites = [];
+    static backgroundSprites = [];
+
+    static lastGeneration = 0;
+    static generationFrequency = MIN_GENERATION_FREQUENCY;
+
+
+    static updateLastGenerationDate(generationDate = Date.now()){
+
+        Sprite.lastGeneration = generationDate;
+        if(Sprite.generationFrequency < MAX_GENERATION_FREQUENCY){
+            Sprite.generationFrequency += GENERATION_FREQUENCY_GAP;
+        }
+
+    }
+
+    static getLastGenerationAge(){
+        return Date.now() - Sprite.lastGeneration;
+    }
+
+    static pushSprite(sprite){
+        Sprite.sprites.push(sprite);
+        Sprite.updateLastGenerationDate();
+    }
+
+    static pushBackgroundSprite(backgroundSprite){
+        Sprite.backgroundSprites.push(backgroundSprite);
+    }
+
+    static getLastSprite(){
+        return Sprite.sprites[Sprite.sprites.length-1];
+    }
+
     
     constructor(x, y, w, h){
         this.x = x;
@@ -56,6 +90,10 @@ class Sprite{
         this.currentTextureIndex = 0;
         this.currentTexture = this.textures[0];
 
+    }
+
+    getRightBoundX(){
+        return this.x + this.w;
     }
 
 }

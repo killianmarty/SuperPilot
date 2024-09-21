@@ -1,11 +1,13 @@
-class Airport extends MovingSprite{
+class Airport extends Sprite{
 
     static lastAirportX = 0;
 
-    constructor(x, y, w, h, vx, vy){
-        super(x, y, w, h, vx, vy);
-        lastAirportX = x;
+    constructor(x, y, w, h){
+        super(x, y, w, h);
+        Airport.lastAirportX = x;
         this.addTexture("assets/buildings/airport.png");
+
+        Sprite.pushSprite(this);
     }
 
     collide(sprite){

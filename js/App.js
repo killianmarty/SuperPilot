@@ -12,9 +12,6 @@ let renderer = new Renderer(canvas);
 //dt managment
 let lastFrameDate = Date.now();
 
-//airport data
-let lastAirportPos = 0;
-
 //sprite generation data
 let lastGeneration = 0;
 let generationFrequency = MIN_GENERATION_FREQUENCY;
@@ -35,6 +32,22 @@ function computeDeltaTime(){
     return dt/1000;
 }
 
+function addSprite(sprite, generationDate){
+    sprites.push(sprite);
+    lastGeneration = generationDate;
+    if(generationFrequency < MAX_GENERATION_FREQUENCY){
+        generationFrequency += GENERATION_FREQUENCY_GAP;
+    }
+}
+
+function getLastSprite(){
+    return sprites[sprites.length-1];
+}
+
+function getLastSpriteRightBoundX(){
+    return getLastSprite().x + getLastSprite().w;
+}
+
 function generateCloud(){
     if(Cloud.lastCloudX < player.x + MAX_WIDTH*0.33 && Math.random() > 0.5){
         let x = player.x + MAX_DISPLAY_WIDTH;
@@ -48,15 +61,14 @@ function generateCloud(){
 }
 
 function generateAirport(){
-    if(player.fuel < 25 && lastAirportPos < player.x - 500){
-        let lastSprite = sprites[sprites.length - 1];
-        let newAirportX = (lastSprite.x + lastSprite.w + 10)
+    if(player.fuel < 25 && Airport.lastAirportX < player.x - 500){
+
+        let newAirportX = (getLastSpriteRightBoundX() + 10)
         if(newAirportX < MAX_DISPLAY_WIDTH){
             newAirportX = player.x + MAX_DISPLAY_WIDTH
         }
         let airport = new Airport(newAirportX, -7, 490, 112, 0, 0)
 
-        lastAirportPos = newAirportX;
         sprites.push(airport);
     }
 }
@@ -64,7 +76,7 @@ function generateAirport(){
 function generateSprite(){
     let currentDate = Date.now();
     if(currentDate - lastGeneration > 1000/generationFrequency){
-        if(sprites.length == 0 || sprites[sprites.length-1].x + sprites[sprites.length-1].w < player.x + MAX_DISPLAY_WIDTH){
+        if(sprites.length == 0 || getLastSpriteRightBoundX() < player.x + MAX_DISPLAY_WIDTH){
             //we generate a sprite
             let newSpriteData = spriteData[Math.floor(Math.random()* spriteData.length)];
             let newSprite;
@@ -87,12 +99,8 @@ function generateSprite(){
                     break;
                 
             }
-            sprites.push(newSprite);
 
-            lastGeneration = currentDate;
-            if(generationFrequency < MAX_GENERATION_FREQUENCY){
-                generationFrequency += GENERATION_FREQUENCY_GAP;
-            }
+            addSprite(newSprite, currentDate);
         }
     }
 }

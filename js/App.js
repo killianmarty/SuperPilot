@@ -4,11 +4,15 @@ canvas.height = canvas.offsetHeight;
 
 let interval;
 
-let player = new Player(0, 50, 30, 20, 60, 0);
+let player;
 let renderer = new Renderer(canvas);
 
 //dt managment
-let lastFrameDate = Date.now();
+let lastFrameDate;
+
+//Playing/Pausing managment
+let playing = false;
+let paused = false;
 
 function init(){
     //Input managment
@@ -17,6 +21,10 @@ function init(){
 
     canvas.addEventListener("touchstart", ()=>{player.throttle = true})
     canvas.addEventListener("touchend", ()=>{player.throttle = false})
+
+    Sprite.reset();
+    player = new Player(0, 50, 30, 20, 60, 0);
+    lastFrameDate = Date.now();
 }
 
 function computeDeltaTime(){
@@ -27,13 +35,43 @@ function computeDeltaTime(){
 }
 
 function generateCloud(){
-    if(Cloud.lastCloudX < player.x + MAX_WIDTH*0.33 && Math.random() > 0.5){
+    if(Cloud.lastCloudX < player.x + MAX_WIDTH*0.9 && Math.random() > 0.2){
 
         let x = player.x + MAX_DISPLAY_WIDTH;
         let y = Math.random()*MAX_HEIGHT/0.5 + 1.5*GROUND_HEIGHT;
 
         new Cloud(x, y, 40, 30);
 
+    }
+}
+
+function generateMountain(){
+    if(Math.random()<0.001){
+        let x = player.x + MAX_DISPLAY_WIDTH;
+        let y = 0;
+
+        switch(Math.floor(Math.random()*6) + 1){
+            case 1:
+                new Mountain(x, y, 384, 100, 1);
+                break;
+            case 2:
+                new Mountain(x, y, 265, 114, 2);
+                break;
+            case 3:
+                new Mountain(x, y, 384, 130, 3);
+                break;
+            case 4:
+                new Mountain(x, y, 192, 192, 4);
+                break;
+            case 5:
+                new Mountain(x, y, 386, 100, 5);
+                break;
+            case 6:
+                new Mountain(x, y, 390, 120, 6);
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -78,10 +116,20 @@ function generateSprite(){
 }
 
 function endGame(){
+    playing = false;
+    paused = true;
+
+    //Stop the main loop
     clearInterval(interval);
-    player.audio.pause();
-    alert("collision");
-    window.location.reload();
+
+    //Stop player audio
+    player.stopAudio();
+    
+    //Show the menu
+    document.getElementById("menuTitle").innerText = "Game Over";
+    document.getElementById("menuStartBtn").onclick = ()=>restartGame();
+    document.getElementById("menuStartBtn").src = "assets/gui/restart_button.png";
+    document.getElementById("menu").style.display = "flex";
 }
 
 function frame(){
@@ -91,8 +139,9 @@ function frame(){
 
     //Generations
     generateCloud();
+    generateMountain();
     generateAirport();
-    generateSprite();
+    if(playing && !paused) generateSprite();
 
     //Background Sprites loop
     for (let i = 0; i < Sprite.backgroundSprites.length; i++) {
@@ -126,10 +175,37 @@ function frame(){
 }
 
 
+function restartGame(){
+    //Reset
+    init()
+    player.startAudio();
 
-//LAUNCH GAME
+    interval = setInterval(()=>{
+        frame();
+    }, 16);
+
+    //Set playing and paused values
+    playing = true;
+    paused = false;
+   
+    //Hide the menu
+    document.getElementById("menu").style.display = "none";
+}
+
+function startGame(){
+    player.startAudio();
+    
+    //Set playing and paused values
+    playing = true;
+    paused = false;
+    gameOver = false;
+   
+    //Hide the menu
+    document.getElementById("menu").style.display = "none";
+}
 
 init();
+player.startAudio();
 
 interval = setInterval(()=>{
     frame();

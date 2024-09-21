@@ -33,6 +33,13 @@ class Sprite{
         return Sprite.sprites[Sprite.sprites.length-1];
     }
 
+    static reset(){
+        Sprite.sprites = [];
+        Sprite.backgroundSprites = []
+        Sprite.lastGeneration = 0;
+        Sprite.generationFrequency = MIN_GENERATION_FREQUENCY;
+    }
+
     
     constructor(x, y, w, h){
         this.x = x;

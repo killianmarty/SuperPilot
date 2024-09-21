@@ -15,7 +15,14 @@ class Player extends MovingSprite{
         this.audio = document.createElement("audio");
         this.audio.src = "assets/audio/plane.wav";
         this.audio.loop = true;
+    }
+
+    startAudio(){
         this.audio.play();
+    }
+
+    stopAudio(){
+        this.audio.pause();
     }
 
     checkGroundCollision(){
@@ -45,19 +52,23 @@ class Player extends MovingSprite{
             this.audio.volume = volume;
         }
 
-        if(this.throttle && this.orientation < MAX_UP_ROTATION && this.fuel > 0){
-            this.fuel -= FUEL_PERCENT_PER_SECOND * dt;
-            this.vy += GRAVITY * dt;
-            this.landed = false;
-        }else{
-            this.vy -= GRAVITY * dt;
-        }
+        if(playing && !paused){
 
+            if(this.throttle && this.orientation < MAX_UP_ROTATION && this.fuel > 0){
+                this.fuel -= FUEL_PERCENT_PER_SECOND * dt;
+                this.vy += GRAVITY * dt;
+                this.landed = false;
+            }else{
+                this.vy -= GRAVITY * dt;
+            }
+
+        }
+        
         this.x += this.vx*dt;
         this.y += this.vy*dt;
 
         this.orientation = Math.atan(this.vy/this.vx);
-        this.score = this.x * SCORE_PER_PIXEL;
+        if(playing && !paused) this.score += this.vx * dt * SCORE_PER_PIXEL;
 
         
         //Landing managment

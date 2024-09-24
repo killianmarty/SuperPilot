@@ -11,6 +11,9 @@ let playing = false;
 let paused = false;
 let muted = true;
 
+//Audio managment
+let gameOverSound;
+
 function initInputs(){
     let canvas = document.getElementById("canvas");
 
@@ -26,6 +29,9 @@ function initInputs(){
 function initGame(){
     initInputs();
     resetGame();
+
+    gameOverSound = document.createElement("audio");
+    gameOverSound.src = "assets/audio/gameover.wav";
     
     if(!muted) player.startAudio();
     
@@ -217,6 +223,7 @@ function endGame(){
     playing = false;
     paused = false;
 
+    if(!muted) gameOverSound.play();
     player.stopAudio();
 
     stopMainLoop(interval);

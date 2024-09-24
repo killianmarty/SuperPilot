@@ -1,22 +1,17 @@
-let canvas = document.getElementById("canvas");
-canvas.width = canvas.offsetWidth;
-canvas.height = canvas.offsetHeight;
-
-let interval;
-
+//Globals
 let player;
 let renderer;
 
-//dt managment
+//Frame managment
+let interval;
 let lastFrameDate;
 
-//Playing/Pausing managment
+//Playing & Pausing managment
 let playing = false;
 let paused = false;
 let muted = true;
 
 function initInputs(){
-    //Input managment
     let canvas = document.getElementById("canvas");
 
     canvas.addEventListener("mousedown", ()=>{player.throttle = true});
@@ -25,7 +20,16 @@ function initInputs(){
     canvas.addEventListener("touchstart", ()=>{player.throttle = true});
     canvas.addEventListener("touchend", ()=>{player.throttle = false});
 
-    window.addEventListener("resize", ()=>{initDisplay()});
+    window.addEventListener("resize", ()=>{resetDisplay()});
+}
+
+function initGame(){
+    initInputs();
+    resetGame();
+    
+    if(!muted) player.startAudio();
+    
+    startMainLoop();
 }
 
 function resetGame(){
@@ -33,10 +37,10 @@ function resetGame(){
     player = new Player(0, 50, 30, 20, 60, 0);
     lastFrameDate = Date.now();
 
-    initDisplay();
+    resetDisplay();
 }
 
-function initDisplay(){
+function resetDisplay(){
     let canvas = document.getElementById("canvas");
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
@@ -170,22 +174,15 @@ function frame(){
     document.getElementById("fuelLevel").style.width = parseFloat(player.fuel)+"%";
 }
 
-
-function restartGame(){
-    //Reset
-    resetGame()
-    if(!muted) player.startAudio();
-
+function startMainLoop(){
+    lastFrameDate = Date.now();
     interval = setInterval(()=>{
         frame();
     }, 16);
+}
 
-    //Set playing and paused values
-    playing = true;
-    paused = false;
-   
-    //Hide the menu
-    document.getElementById("menu").style.display = "none";
+function stopMainLoop(){
+    clearInterval(interval);
 }
 
 function startGame(){
@@ -194,6 +191,23 @@ function startGame(){
     paused = false;
     
     if(!muted) player.startAudio();
+
+    //Note: we don't need to start the main loop because it's already running because of the prelaunch animation
+   
+    //Hide the menu
+    document.getElementById("menu").style.display = "none";
+}
+
+function restartGame(){
+    resetGame()
+    
+    //Set playing and paused values
+    playing = true;
+    paused = false;
+
+    if(!muted) player.startAudio();
+
+    startMainLoop();
    
     //Hide the menu
     document.getElementById("menu").style.display = "none";
@@ -203,12 +217,10 @@ function endGame(){
     playing = false;
     paused = false;
 
-    //Stop the main loop
-    clearInterval(interval);
-
-    //Stop player audio
     player.stopAudio();
-    
+
+    stopMainLoop(interval);
+
     //Show the menu
     document.getElementById("menuTitle").innerText = "Game Over";
     document.getElementById("menuStartBtn").onclick = ()=>restartGame();
@@ -221,7 +233,7 @@ function pauseGame(){
 
     player.stopAudio();
 
-    clearInterval(interval);
+    stopMainLoop(interval);
 
     document.getElementById("menuTitle").innerText = "Paused";
     document.getElementById("menuStartBtn").onclick = ()=>resumeGame();
@@ -234,10 +246,7 @@ function resumeGame(){
 
     if(!muted) player.startAudio();
 
-    lastFrameDate = Date.now();
-    interval = setInterval(()=>{
-        frame();
-    }, 16);
+    startMainLoop();
 
     document.getElementById("menu").style.display = "none";
 }
@@ -254,13 +263,6 @@ function toggleMute(){
 }
 
 
-//MAIN CALLS
+//LAUNCHING THE GAME
 
-initInputs();
-resetGame();
-
-if(!muted) player.startAudio();
-
-interval = setInterval(()=>{
-    frame();
-}, 16);
+initGame();

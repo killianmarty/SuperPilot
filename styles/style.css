@@ -1,0 +1,91 @@
+@font-face {
+    font-family: "Blazma";
+    src: url("../assets/fonts/blazma.ttf");
+}
+
+html, body{
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+
+    touch-action: none;
+   -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+   outline: none;
+   font-family: 'Blazma';
+}
+
+canvas{
+    background: rgba(204,246,255,1);
+    width: 100vw;
+    height: 100vh;
+    touch-action: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#metrics{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 15px;
+    color: black;
+}
+
+#fuelBar{
+    width: 80px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+#fuelLevel{
+    background-color: rgb(248, 49, 49);
+    height: 100%;
+}
+
+#menu{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+#menuStartBtn{
+    width: min(20vh, 20vw);
+    width: min(20vh, 20vw);
+    cursor: pointer;
+}
+
+#gameButtons{
+    position: absolute;
+    padding: 15px;
+}
+
+.gameButton{
+    width: min(10vh, 10vw);
+    width: min(10vh, 10vw);
+    cursor: pointer;
+}
+
+#menuTitle{
+    color: white;
+    font-weight: bold;
+    margin: 0px;
+}
+
+.disabled{
+    filter: grayscale(100%);
+}

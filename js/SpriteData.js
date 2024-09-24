@@ -124,5 +124,11 @@ const spriteData = [
         type: "Helicopter",
         width: 56,
         height: 20
+    },
+
+    {
+        type: "FighterJet",
+        width: 50,
+        height: 23
     }
 ];

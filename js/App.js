@@ -130,6 +130,9 @@ function generateSprite(){
                 case "Helicopter":
                     new Helicopter(player.x + MAX_DISPLAY_WIDTH, MAX_HEIGHT - newSpriteData.height - Math.random() * 30, newSpriteData.width, newSpriteData.height, -30, 0);
                     break;
+                case "FighterJet":
+                    new FighterJet(player.x + MAX_DISPLAY_WIDTH, MAX_HEIGHT - newSpriteData.height - Math.random() * 30, newSpriteData.width, newSpriteData.height, -70, 0)
+                    break;
                 default:
                     break;
                 

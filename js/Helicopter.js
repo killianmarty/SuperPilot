@@ -4,7 +4,7 @@ class Helicopter extends MovingSprite{
         this.addTexture("assets/vehicles/helicopter1.png");
         this.addTexture("assets/vehicles/helicopter2.png");
 
-        this.textureChangeFrequency = 10;
+        this.textureChangeFrequency = 15;
 
         Sprite.pushSprite(this);
     }

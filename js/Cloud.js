@@ -1,10 +1,10 @@
 class Cloud extends Sprite{
 
-    static lastCloudX = 0;
+    static lastRightBoundaryX = 0;
 
     constructor(x, y, w, h){
         super(x, y, w, h);
-        Cloud.lastCloudX = x;
+        Cloud.lastRightBoundaryX = this.x + this.w;
 
         let id = (Math.floor(Math.random()*7) + 1);
         this.addTexture("assets/background/cloud" + id.toString() + ".png");

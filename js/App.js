@@ -61,12 +61,23 @@ function computeDeltaTime(){
 }
 
 function generateCloud(){
-    if(Cloud.lastCloudX < player.x + MAX_WIDTH*0.9 && Math.random() > 0.2){
+    if(Cloud.lastRightBoundaryX < player.x + MAX_WIDTH*0.9 && Math.random() > 0.2){
 
         let x = player.x + MAX_DISPLAY_WIDTH;
         let y = Math.random()*MAX_HEIGHT/0.5 + 1.5*GROUND_HEIGHT;
 
         new Cloud(x, y, 40, 30);
+
+    }
+}
+
+function generateBirds(){
+    if(Birds.lastRightBoundaryX < player.x + MAX_WIDTH*0.2 && Math.random() > 0.05){
+
+        let x = player.x + MAX_DISPLAY_WIDTH;
+        let y = Math.random()*MAX_HEIGHT/0.5 + 1.5*GROUND_HEIGHT;
+
+        new Birds(x, y, 40, 30, -10, 0);
 
     }
 }
@@ -147,16 +158,23 @@ function frame(){
     player.update(dt)
 
     //Generations
-    generateCloud();
     generateMountain();
-    generateAirport();
-    if(playing && !paused) generateSprite();
+    generateCloud(); 
+    generateBirds();
+
+    
+    if(playing && !paused) {
+        generateSprite();
+        generateAirport();
+    }
 
     //Background Sprites loop
     for (let i = 0; i < Sprite.backgroundSprites.length; i++) {
 
         //Delete background sprite if not visible anymore
         if(Sprite.backgroundSprites[i].x < player.x - 5000) Sprite.backgroundSprites.splice(i, 1);
+
+        Sprite.backgroundSprites[i].update(dt);
     
     }
 

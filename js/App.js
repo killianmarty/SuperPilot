@@ -9,9 +9,9 @@ let lastFrameDate;
 //Playing & Pausing managment
 let playing = false;
 let paused = false;
-let muted = true;
 
 //Audio managment
+let muted = true;
 let gameOverSound;
 
 function initInputs(){
@@ -66,7 +66,7 @@ function generateCloud(){
         let x = player.x + MAX_DISPLAY_WIDTH;
         let y = Math.random()*MAX_HEIGHT/0.5 + 1.5*GROUND_HEIGHT;
 
-        new Cloud(x, y, 40, 30);
+        new Cloud(x, y);
 
     }
 }
@@ -77,7 +77,7 @@ function generateBirds(){
         let x = player.x + MAX_DISPLAY_WIDTH;
         let y = Math.random()*MAX_HEIGHT/0.5 + 1.5*GROUND_HEIGHT;
 
-        new Birds(x, y, 40, 30, -10, 0);
+        new Birds(x, y, -10, 0);
 
     }
 }
@@ -117,37 +117,25 @@ function generateAirport(){
             newAirportX = player.x + MAX_DISPLAY_WIDTH
         }
 
-        new Airport(newAirportX, -7, 490, 112)
+        new Airport(newAirportX, -7)
 
     }
 }
 
 function generateSprite(){
-    if(Sprite.getLastGenerationAge()> 1000/Sprite.generationFrequency){
-        if(Sprite.sprites.length == 0 || Sprite.getLastSprite().getRightBoundX() < player.x + MAX_DISPLAY_WIDTH){
-            
-            let newSpriteData = spriteData[Math.floor(Math.random()* spriteData.length)];
+    let spawnX = player.x + MAX_DISPLAY_WIDTH;
 
-            switch (newSpriteData.type) {
-                case "Building":
-                    new Building(player.x + MAX_DISPLAY_WIDTH, -Math.random()*4, newSpriteData.with, newSpriteData.height, newSpriteData.textures);
-                    break;
-                case "Vegetation":
-                    new Vegetation(player.x + MAX_DISPLAY_WIDTH, newSpriteData.y, newSpriteData.with, newSpriteData.height, newSpriteData.textures);
-                    break;
-                case "Baloon":
-                    new Baloon(player.x + MAX_DISPLAY_WIDTH, MAX_HEIGHT - newSpriteData.height - Math.random() * 30, newSpriteData.width, newSpriteData.height, -10, 0);
-                    break;
-                case "Helicopter":
-                    new Helicopter(player.x + MAX_DISPLAY_WIDTH, MAX_HEIGHT - newSpriteData.height - Math.random() * 30, newSpriteData.width, newSpriteData.height, -30, 0);
-                    break;
-                case "FighterJet":
-                    new FighterJet(player.x + MAX_DISPLAY_WIDTH, MAX_HEIGHT - newSpriteData.height - Math.random() * 30, newSpriteData.width, newSpriteData.height, -70, 0)
-                    break;
-                default:
-                    break;
-                
-            }
+    if(Sprite.getLastGenerationAge()> 1000/Sprite.generationFrequency){
+        if(Sprite.sprites.length == 0 || Sprite.getLastSprite().getRightBoundX() < spawnX){
+            
+            let rand = Math.floor(Math.random()*21);
+
+            if(rand <= 14) new Building(spawnX, (-Math.random()*4));
+            else if(rand <= 17) new Vegetation(spawnX, -7);
+            else if(rand <= 18) new Baloon(spawnX, (MIN_VEHICLE_GENERATION_HEIGHT + Math.random() * VEHICLE_GENERATION_HEIGHT_GAP));
+            else if(rand <= 19) new Helicopter(spawnX, (MIN_VEHICLE_GENERATION_HEIGHT + Math.random() * VEHICLE_GENERATION_HEIGHT_GAP));
+            else if(rand <= 20) new FighterJet(spawnX, (MIN_VEHICLE_GENERATION_HEIGHT + Math.random() * VEHICLE_GENERATION_HEIGHT_GAP));
+
         }
     }
 }
@@ -162,7 +150,6 @@ function frame(){
     generateCloud(); 
     generateBirds();
 
-    
     if(playing && !paused) {
         generateSprite();
         generateAirport();

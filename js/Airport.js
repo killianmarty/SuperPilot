@@ -2,8 +2,8 @@ class Airport extends Sprite{
 
     static lastAirportX = 0;
 
-    constructor(x, y, w, h){
-        super(x, y, w, h);
+    constructor(x, y){
+        super(x, y, 490, 112);
         Airport.lastAirportX = x;
         this.addTexture("assets/buildings/airport.png");
 

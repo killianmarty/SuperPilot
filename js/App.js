@@ -5,7 +5,7 @@ canvas.height = canvas.offsetHeight;
 let interval;
 
 let player;
-let renderer = new Renderer(canvas);
+let renderer;
 
 //dt managment
 let lastFrameDate;
@@ -13,19 +13,34 @@ let lastFrameDate;
 //Playing/Pausing managment
 let playing = false;
 let paused = false;
-let muted = false;
+let muted = true;
 
-function init(){
+function initInputs(){
     //Input managment
+    let canvas = document.getElementById("canvas");
+
     canvas.addEventListener("mousedown", ()=>{player.throttle = true});
-    canvas.addEventListener('mouseup', ()=>{player.throttle = false})
+    canvas.addEventListener('mouseup', ()=>{player.throttle = false});
 
-    canvas.addEventListener("touchstart", ()=>{player.throttle = true})
-    canvas.addEventListener("touchend", ()=>{player.throttle = false})
+    canvas.addEventListener("touchstart", ()=>{player.throttle = true});
+    canvas.addEventListener("touchend", ()=>{player.throttle = false});
 
+    window.addEventListener("resize", ()=>{initDisplay()});
+}
+
+function resetGame(){
     Sprite.reset();
     player = new Player(0, 50, 30, 20, 60, 0);
     lastFrameDate = Date.now();
+
+    initDisplay();
+}
+
+function initDisplay(){
+    let canvas = document.getElementById("canvas");
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    renderer = new Renderer(canvas);
 }
 
 function computeDeltaTime(){
@@ -158,7 +173,7 @@ function frame(){
 
 function restartGame(){
     //Reset
-    init()
+    resetGame()
     if(!muted) player.startAudio();
 
     interval = setInterval(()=>{
@@ -174,12 +189,11 @@ function restartGame(){
 }
 
 function startGame(){
-    if(!muted) player.startAudio();
-    
     //Set playing and paused values
     playing = true;
     paused = false;
-    gameOver = false;
+    
+    if(!muted) player.startAudio();
    
     //Hide the menu
     document.getElementById("menu").style.display = "none";
@@ -187,7 +201,6 @@ function startGame(){
 
 function endGame(){
     playing = false;
-    paused = true;
 
     //Stop the main loop
     clearInterval(interval);
@@ -239,8 +252,13 @@ function toggleMute(){
     muted = !muted;
 }
 
-init();
-player.startAudio();
+
+//MAIN CALLS
+
+initInputs();
+resetGame();
+
+if(!muted) player.startAudio();
 
 interval = setInterval(()=>{
     frame();

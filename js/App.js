@@ -201,6 +201,7 @@ function startGame(){
 
 function endGame(){
     playing = false;
+    paused = false;
 
     //Stop the main loop
     clearInterval(interval);

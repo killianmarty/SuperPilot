@@ -1,7 +1,6 @@
 {
     "name": "Super Pilot",
     "short_name": "SuperPilot",
-    "start_url": "/~kmarty/SuperPilot",
     "display": "standalone",
     "icons": [
     {

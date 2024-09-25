@@ -13,4 +13,5 @@ class Birds extends MovingSprite{
 
         Sprite.pushBackgroundSprite(this);
     }
+    
 }

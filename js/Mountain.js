@@ -46,4 +46,5 @@ class Mountain extends Sprite{
 
         Sprite.pushBackgroundSprite(this);
     }
+    
 }

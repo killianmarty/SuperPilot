@@ -11,4 +11,5 @@ class Cloud extends Sprite{
 
         Sprite.pushBackgroundSprite(this);
     }
+    
 }

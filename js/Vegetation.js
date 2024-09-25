@@ -1,4 +1,5 @@
 class Vegetation extends Sprite{
+    
     static select(){
         let w, h, texture;
         switch(Math.floor(Math.random()*3)){

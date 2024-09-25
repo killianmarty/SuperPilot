@@ -85,4 +85,5 @@ class Building extends Sprite{
 
         Sprite.pushSprite(this);
     }
+    
 }

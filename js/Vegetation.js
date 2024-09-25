@@ -1,5 +1,5 @@
 class Vegetation extends Sprite{
-    static selectVegetation(){
+    static select(){
         let w, h, texture;
         switch(Math.floor(Math.random()*3)){
             case 0:
@@ -22,7 +22,7 @@ class Vegetation extends Sprite{
     }
 
     constructor(x, y){
-        let [w, h, texture] = Vegetation.selectVegetation();
+        let [w, h, texture] = Vegetation.select();
 
         super(x, y, w, h);
         this.addTexture(texture);

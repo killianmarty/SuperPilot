@@ -61,7 +61,7 @@ function computeDeltaTime(){
 }
 
 function generateCloud(){
-    if(Cloud.lastRightBoundaryX < player.x + MAX_WIDTH*0.9 && Math.random() > 0.2){
+    if(Cloud.lastRightBoundX < player.x + MAX_WIDTH*0.9 && Math.random() > 0.2){
 
         let x = player.x + MAX_DISPLAY_WIDTH;
         let y = Math.random()*MAX_HEIGHT/0.5 + 1.5*GROUND_HEIGHT;
@@ -72,12 +72,12 @@ function generateCloud(){
 }
 
 function generateBirds(){
-    if(Birds.lastRightBoundaryX < player.x + MAX_WIDTH*0.2 && Math.random() > 0.05){
+    if(Birds.lastRightBoundX < player.x + MAX_WIDTH*0.2 && Math.random() > 0.05){
 
         let x = player.x + MAX_DISPLAY_WIDTH;
         let y = Math.random()*MAX_HEIGHT/0.5 + 1.5*GROUND_HEIGHT;
 
-        new Birds(x, y, -10, 0);
+        new Birds(x, y);
 
     }
 }
@@ -87,34 +87,17 @@ function generateMountain(){
     let y = -5;
     if(Mountain.lastRightBoundX < x && Math.random()<0.001){
         
-        switch(Math.floor(Math.random()*5) + 1){
-            case 1:
-                new Mountain(x, y, 384, 100, 1);
-                break;
-            case 2:
-                new Mountain(x, y, 265, 114, 2);
-                break;
-            case 3:
-                new Mountain(x, y, 384, 130, 3);
-                break;
-            case 4:
-                new Mountain(x, y, 192, 192, 4);
-                break;
-            case 5:
-                new Mountain(x, y, 386, 100, 5);
-                break;
-            default:
-                break;
-        }
+        new Mountain(x, y);
+
     }
 }
 
 function generateAirport(){
-    if(player.fuel < 25 && Airport.lastAirportX < player.x - 500){
+    if(player.fuel < 25 && Airport.lastRightBoundX < player.x - 500){
 
-        let newAirportX = (Sprite.getLastSprite().getRightBoundX() + 10)
+        let newAirportX = (Sprite.getLastSprite().getRightBoundX() + 10);
         if(newAirportX < MAX_DISPLAY_WIDTH){
-            newAirportX = player.x + MAX_DISPLAY_WIDTH
+            newAirportX = player.x + MAX_DISPLAY_WIDTH;
         }
 
         new Airport(newAirportX, -7)
@@ -125,7 +108,7 @@ function generateAirport(){
 function generateSprite(){
     let spawnX = player.x + MAX_DISPLAY_WIDTH;
 
-    if(Sprite.getLastGenerationAge()> 1000/Sprite.generationFrequency){
+    if(Sprite.getLastGenerationAge() > 1000/Sprite.generationFrequency){
         if(Sprite.sprites.length == 0 || Sprite.getLastSprite().getRightBoundX() < spawnX){
             
             let rand = Math.floor(Math.random()*21);

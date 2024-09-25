@@ -1,6 +1,6 @@
 class Building extends Sprite{
     
-    static selectBuilding(){
+    static select(){
         let w, h, texture;
         switch(Math.floor(Math.random()*14)){
             case 0:
@@ -78,7 +78,7 @@ class Building extends Sprite{
     }
     
     constructor(x, y){
-        let [w, h, texture] = Building.selectBuilding();
+        let [w, h, texture] = Building.select();
 
         super(x, y, w, h);
         this.addTexture(texture);

@@ -75,7 +75,7 @@ class Sprite{
     }
 
     collide(sprite){
-        endGame();
+        Game.endGame();
         return;
     }
 

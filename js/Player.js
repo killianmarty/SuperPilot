@@ -53,7 +53,7 @@ class Player extends MovingSprite{
             this.audio.volume = volume;
         }
 
-        if(playing && !paused){
+        if(Game.playing && !Game.paused){
 
             if(this.throttle && this.orientation < MAX_UP_ROTATION && this.fuel > 0){
                 this.fuel -= FUEL_PERCENT_PER_SECOND * dt;
@@ -69,7 +69,7 @@ class Player extends MovingSprite{
         this.y += this.vy*dt;
 
         this.orientation = Math.atan(this.vy/this.vx);
-        if(playing && !paused) this.score += this.vx * dt * SCORE_PER_PIXEL;
+        if(Game.playing && !Game.paused) this.score += this.vx * dt * SCORE_PER_PIXEL;
 
         
         //Landing managment

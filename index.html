@@ -16,8 +16,8 @@
     <canvas id="canvas" width="1200" height="500"></canvas>
 
     <div id="gameButtons">
-        <img id="pauseBtn" class="gameButton" src="assets/gui/pause_button.png" onclick="pauseGame();">
-        <img id="audioBtn" class="gameButton disabled" src="assets/gui/audio_button.png" onclick="toggleMute();">
+        <img id="pauseBtn" class="gameButton" src="assets/gui/pause_button.png" onclick="Game.pauseGame();">
+        <img id="audioBtn" class="gameButton disabled" src="assets/gui/audio_button.png" onclick="Game.toggleMute();">
     </div>
 
     <div id="metrics">
@@ -29,7 +29,7 @@
 
     <div id="menu">
         <h1 id="menuTitle">FlappyBear</h1>
-        <img id="menuStartBtn" src="assets/gui/play_button.png" onclick="startGame();"></img>
+        <img id="menuStartBtn" src="assets/gui/play_button.png" onclick="Game.startGame();"></img>
         <span></span>
     </div>
     
@@ -48,6 +48,7 @@
     <script src="js/Mountain.js"></script>
     <script src="js/Birds.js"></script>
     <script src="js/Renderer.js"></script>
+    <script src="js/Game.js"></script>
     <script src="js/App.js"></script>
     
 </body>
